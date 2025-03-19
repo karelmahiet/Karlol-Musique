@@ -1,0 +1,90 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100vw; /* Prend toute la largeur de l'écran */
+  height: 100vh; /* Prend toute la hauteur */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.app-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #1db954;
+}
+
+.app-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #b3b3b3;
+}
+
+.spotify-btn {
+  background-color: #1db954;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.spotify-btn:hover {
+  background-color: #17a74a;
+}
+
+.results-container {
+  /* width: 80%;
+  max-width: 600px;
+  max-height: 300px;
+  margin: 0 auto;
+  padding: 16px; */
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #1db954 #282828;
+}
+
+.results-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.results-container::-webkit-scrollbar-track {
+  background: #282828;
+  border-radius: 8px;
+}
+
+.results-container::-webkit-scrollbar-thumb {
+  background: #1db954;
+  border-radius: 8px;
+}
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #1db954;
+  transition: width 0.3s ease;
+}
