@@ -7,7 +7,7 @@ const REDIRECT_URI = "http://localhost:5173/callback";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SCOPES =
-  "user-top-read streaming user-read-playback-state user-modify-playback-state";
+  "user-top-read streaming user-read-playback-state user-modify-playback-state playlist-modify-public playlist-modify-private";
 
 export default function SpotifyTop() {
   const [token, setToken] = useState("");
@@ -79,14 +79,17 @@ export default function SpotifyTop() {
 
   const playSpotifyTrack = async (trackUri) => {
     if (!deviceId) return;
-    await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ uris: [trackUri] }),
-    });
+    await fetch(
+      `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uris: [trackUri] }),
+      }
+    );
   };
 
   const stopSpotifyTrack = async () => {
@@ -95,6 +98,53 @@ export default function SpotifyTop() {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
     });
+  };
+
+  const generatePlaylist = async () => {
+    if (!token || topTracks.length === 0) return;
+
+    try {
+      const userRes = await fetch("https://api.spotify.com/v1/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userData = await userRes.json();
+      const userId = userData.id;
+
+      const playlistRes = await fetch(
+        `https://api.spotify.com/v1/users/${userId}/playlists`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: "Top 10 Karlol Music",
+            description: "Karlol music is the best.",
+            public: false,
+          }),
+        }
+      );
+
+      const playlistData = await playlistRes.json();
+      const playlistId = playlistData.id;
+
+      await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uris: topTracks.map((track) => track.uri),
+        }),
+      });
+
+      alert("Playlist créée avec succès dans ton compte Spotify !");
+    } catch (error) {
+      console.error("Erreur lors de la création de la playlist :", error);
+      alert("Erreur lors de la création de la playlist.");
+    }
   };
 
   return (
@@ -122,6 +172,14 @@ export default function SpotifyTop() {
             <button onClick={getTopTracks} className="spotify-btn">
               Voir mon Top Musiques
             </button>
+            {activeTab === "tracks" && (
+              <button
+                onClick={generatePlaylist}
+                className="spotify-btn bg-purple-500"
+              >
+                🎧 Générer Playlist
+              </button>
+            )}
             <button
               onClick={stopSpotifyTrack}
               className="spotify-btn bg-red-500"
@@ -138,14 +196,21 @@ export default function SpotifyTop() {
                     Top Artistes
                   </h2>
                   {topArtists.map((artist, index) => (
-                    <div key={artist.id} className="p-4 bg-gray-800 rounded-xl mb-3">
-                      <p className="text-lg font-bold text-green-400">#{index + 1}</p>
+                    <div
+                      key={artist.id}
+                      className="p-4 bg-gray-800 rounded-xl mb-3"
+                    >
+                      <p className="text-lg font-bold text-green-400">
+                        #{index + 1}
+                      </p>
                       <img
                         src={artist.images[0]?.url}
                         alt={artist.name}
                         className="rounded-full w-24 h-24 mx-auto"
                       />
-                      <p className="text-white text-center mt-2">{artist.name}</p>
+                      <p className="text-white text-center mt-2">
+                        {artist.name}
+                      </p>
                       <p className="text-gray-400 text-center">
                         {artist.genres.slice(0, 2).join(", ")}
                       </p>
@@ -160,8 +225,13 @@ export default function SpotifyTop() {
                     Top Musiques
                   </h2>
                   {topTracks.map((track, index) => (
-                    <div key={track.id} className="p-4 bg-gray-800 rounded-xl mb-3">
-                      <p className="text-lg font-bold text-green-400">#{index + 1}</p>
+                    <div
+                      key={track.id}
+                      className="p-4 bg-gray-800 rounded-xl mb-3"
+                    >
+                      <p className="text-lg font-bold text-green-400">
+                        #{index + 1}
+                      </p>
                       <div
                         className="relative group cursor-pointer"
                         onClick={() => playSpotifyTrack(track.uri)}
@@ -182,7 +252,9 @@ export default function SpotifyTop() {
                           </svg>
                         </div>
                       </div>
-                      <p className="text-white text-center mt-2">{track.name}</p>
+                      <p className="text-white text-center mt-2">
+                        {track.name}
+                      </p>
                       <p className="text-gray-400 text-center">
                         {track.artists.map((a) => a.name).join(", ")}
                       </p>
