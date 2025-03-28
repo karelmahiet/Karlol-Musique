@@ -1,12 +1,21 @@
-# React + Vite
+# KARLOL MUSIC
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Karlol music est une application qui interagit avec l'API de Spotify pour montrer le top 10 des artistes et musiques.
 
-Currently, two official plugins are available:
+Un apercu des musioques est disponible et il est possible de le mettre sur pause en appuyant sur le bouton "STOP".
+Une liste de lecture du top 10 des chansons peut être ajouter au compte en appuyant sur le bouton "Générer".
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Malheureusement, l'app est en mode développement ce qui signifie que Spotify ne permet qu'au propriétaire de l'application d'utiliser son API, donc ca ne marche qu'avec mon compte :/
 
-## Expanding the ESLint configuration
+Fait en React + Vite.
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Voici quelques photos:)
+
+PS: il existe des restes d'un générateur de liste de lecture dans le code que j'ai laissé de côté pour l'instant dû au fait que le mode développement limite l'app à être seulement fonctionnelle avec mon compte.
+
+![Screenshot 2025-03-27 222825](https://github.com/user-attachments/assets/1a30a54f-f34c-4ef6-a406-8ab9aa28df45)
+![Screenshot 2025-03-27 222847](https://github.com/user-attachments/assets/c258a3d4-79a5-45c7-a10c-f8008bdbe86e)
+![Screenshot 2025-03-27 222920](https://github.com/user-attachments/assets/870651f6-8c53-40de-8223-b2fad9c351bf)
+![Screenshot 2025-03-27 222925](https://github.com/user-attachments/assets/612ea728-a9a3-4ac7-a350-c5b5f7f9ac4d)
+![Screenshot 2025-03-27 222930](https://github.com/user-attachments/assets/6c684229-7775-4243-b5bf-eca5a4817089)
+![Screenshot 2025-03-27 223601](https://github.com/user-attachments/assets/42077a25-838c-4de3-99ef-5fdc9720f2e4)
